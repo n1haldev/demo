@@ -1,0 +1,163 @@
+import React from "react";
+
+class Calculator extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state={
+            display:"",
+        }
+        this.numInput=this.numInput.bind(this);
+        this.equalInput=this.equalInput.bind(this);
+        this.clearInput=this.clearInput.bind(this);
+        this.clearlast=this.clearlast.bind(this);
+    }
+    numInput(num) {
+        let val=num.currentTarget.value;
+        this.setState({display:this.state.display+""+val})
+    }
+    equalInput() {
+        let val=this.state.display;
+        let num=[];
+        let op=[]
+        let lop=0;
+        for(let i=0; i<val.length;i++){
+            if(['+','%','-','x','/'].includes(val[i])) {
+                op.push(val[i]);
+                num.push(val.slice(lop, i));
+                lop=i+1;
+            }
+        }
+        num.push(val.slice(lop));
+        
+        for(let k=0;k<op.length; k++) {
+            console.log(op[k]);
+        }
+        for(let j=0; j<num.length; j++) {
+            num[j]=parseInt(num[j]);
+            console.log(num[j]);
+            console.log(typeof(num[j]));
+        }
+
+        var res=0;
+        const ops=['/','%','x','+','-'];
+        var counter=0;
+        while(op.length!==0) {
+            let c=ops[counter];
+            if(op.indexOf(c)!==-1) {
+                let index=op.indexOf(c);
+                switch(c) {
+                    case '/':res=parseFloat(num[index]/num[index+1]);
+                    break;
+                    case '%':res=parseFloat(num[index]/100.0);
+                    break;
+                    case 'x':res=num[index]*num[index+1];
+                    break;
+                    case '+':res=num[index]+num[index+1];
+                    break;
+                    case '-':res=num[index]-num[index+1];
+                    break;
+                    default:alert("Invalid Operator!");
+                    break;
+                }
+                num.splice(num[index],2);
+                num[index]=res;
+                op.splice(index,1);
+            }
+            else {
+                counter++;
+            }
+        }
+        num=[];
+        op=[];
+        this.setState({display:res})
+    }
+    clearInput() {
+        this.setState({display:""});
+    }
+    clearlast() {
+        let val=this.state.display;
+        val=val.slice(0, val.length-1);
+        this.setState({display:val});
+    }
+
+    render() {
+        return(
+            <div>
+                <center>
+                   
+                <h1>Calculator</h1>
+                <div>
+                     <table style={{border:"3px solid black"}}>
+                <textarea cols="23" rows="3" value={this.state.display}></textarea>
+                <br />
+                <button style={{width:"50px", height:"50px"}} onClick={this.clearInput}>C</button>
+                <button style={{width:"50px", height:"50px"}}>+/-</button>
+                <button style={{width:"50px", height:"50px"}} value="%" onClick={this.numInput}>%</button>
+                <button style={{width:"50px", height:"50px"}} onClick={this.clearlast}>DEL</button>
+                <br />
+                <button style={{width:"50px", height:"50px"}} value="7" onClick={this.numInput}>7</button>
+                <button style={{width:"50px", height:"50px"}} value="8" onClick={this.numInput}>8</button>
+                <button style={{width:"50px", height:"50px"}} value="9" onClick={this.numInput}>9</button>
+                <button style={{width:"50px", height:"50px"}} value="/" onClick={this.numInput}>÷</button>
+                <br />
+                <button style={{width:"50px", height:"50px"}} value="4" onClick={this.numInput}>4</button>
+                <button style={{width:"50px", height:"50px"}} value="5" onClick={this.numInput}>5</button>
+                <button style={{width:"50px", height:"50px"}} value="6" onClick={this.numInput}>6</button>
+                <button style={{width:"50px", height:"50px"}} value="x" onClick={this.numInput}>x</button>
+                <br />
+                <button style={{width:"50px", height:"50px"}} value="1" onClick={this.numInput}>1</button>
+                <button style={{width:"50px", height:"50px"}} value="2" onClick={this.numInput}>2</button>
+                <button style={{width:"50px", height:"50px"}} value="3" onClick={this.numInput}>3</button>
+                <button style={{width:"50px", height:"50px"}} value="-" onClick={this.numInput}>-</button>
+                <br />
+                <button style={{width:"50px", height:"50px"}} value="0" onClick={this.numInput}>0</button>
+                <button style={{width:"50px", height:"50px"}} value="." onClick={this.numInput}>.</button>
+                <button style={{width:"50px", height:"50px"}} onClick={this.equalInput}>=</button>
+                <button style={{width:"50px", height:"50px"}} value="+" onClick={this.numInput}>+</button>
+                <br />
+                </table>
+                </div>
+                </center>
+            </div>
+        );
+    }
+}
+
+class NavBar extends React.Component {
+    render() {
+        return(
+            <nav style={{backgroundColor:"darkblue", color:"white"}}>
+                <table border={"3px solid black"}>
+                    <th>Nihal</th>
+                    <th>Vishal</th>
+                    <th>Nishanth</th>
+                    <th>Digvijay</th>
+                    <th>Rojas</th>
+                    <th>Darshan</th>
+                    <th>Rathan</th>
+                    <th>Prateek</th>
+                </table>
+            </nav>
+        )
+    }
+}
+
+class Form extends React.Component {
+    render() {
+        var mail;
+        return(
+            <form>
+                <input type="email" />
+                mail=prompt()
+                <input type="submit" />
+            </form>
+        )
+    }
+}
+
+export {
+    Calculator,
+    NavBar,
+    Form
+}
